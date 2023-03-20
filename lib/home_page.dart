@@ -20,9 +20,9 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController txtController = TextEditingController();
   final GlobalKey globalKey = GlobalKey();
 
-  void _printLatestValue() {
+  void _setTextValue() {
     setState(() {
-      txtController.text = txtController.text.toString();
+      txtController.text = txtController.text.toString().toUpperCase();
     });
   }
 
@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: InputDecoration(
                 hintText: "Ex: A1...",
               ),
-              onSubmitted: (value) => _printLatestValue(),
+              onSubmitted: (value) => _setTextValue(),
             ),
             Container(
                 width: 200,
