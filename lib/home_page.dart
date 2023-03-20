@@ -1,8 +1,6 @@
-import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -48,50 +46,51 @@ class _MyHomePageState extends State<MyHomePage> {
               onSubmitted: (value) => _setTextValue(),
             ),
             Container(
-                width: 200,
+                width: 180,
                 height: 500,
                 margin: EdgeInsets.all(10),
                 child: RepaintBoundary(
                   key: globalKey,
                   child: Column(children: <Widget>[
+                    const Spacer(),
                     Expanded(
-                      flex: 8, // takes 30% of available width
+                      flex: 7, // takes 30% of available width
                       child: SfBarcodeGenerator(
                         value: "${txtController.text}.1",
                         showValue: true,
                         textStyle: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 50),
                     Expanded(
-                      flex: 8, // takes 30% of available width
+                      flex: 7, // takes 30% of available width
                       child: SfBarcodeGenerator(
                         value: "${txtController.text}.2",
                         showValue: true,
                         textStyle: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 50),
                     Expanded(
-                      flex: 8, // takes 30% of available width
+                      flex: 7, // takes 30% of available width
                       child: SfBarcodeGenerator(
                         value: "${txtController.text}.3",
                         showValue: true,
                         textStyle: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 50),
                     Expanded(
-                      flex: 8, // takes 30% of available width
+                      flex: 7, // takes 30% of available width
                       child: SfBarcodeGenerator(
                         value: "${txtController.text}.4",
                         showValue: true,
                         textStyle: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 18),
                     const Expanded(
-                        flex: 8, // takes 30% of available width
+                        flex: 7, // takes 30% of available width
                         child: Image(image: AssetImage("assets/logo.png"))),
                   ]),
                 )),
@@ -101,28 +100,21 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         tooltip: 'Imprimir',
         onPressed: () {
-          renderImage();
+          renderAndPrintImage();
         },
         child: const Icon(Icons.print),
       ),
     );
   }
 
-  void renderImage() async {
+  void renderAndPrintImage() async {
     final boundary =
         globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
     final image = await boundary?.toImage();
     final byteData = await image?.toByteData(format: ImageByteFormat.png);
     final imageBytes = byteData?.buffer.asUint8List();
     if (imageBytes != null) {
-      final directory = await getApplicationDocumentsDirectory();
-      final imagePath =
-          await File('${directory.path}\\container_image.png').create();
-
-      await imagePath.writeAsBytes(imageBytes);
-
       final img = pw.MemoryImage(imageBytes);
-
       final doc = pw.Document();
       doc.addPage(pw.Page(
           pageFormat: PdfPageFormat.a4,
