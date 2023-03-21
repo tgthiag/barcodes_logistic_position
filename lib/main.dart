@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Gerador de barcodes'),
+      home: const MyHomePage(title: 'SGA Barcode'),
     );
   }
 }
