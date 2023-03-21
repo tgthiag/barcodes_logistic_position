@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             const Text(
@@ -40,58 +40,75 @@ class _MyHomePageState extends State<MyHomePage> {
               controller: txtController,
               maxLines: 1,
               textAlign: TextAlign.center,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Ex: A1...",
               ),
               onSubmitted: (value) => _setTextValue(),
             ),
             Container(
-                width: 180,
-                height: 500,
-                margin: EdgeInsets.all(10),
+                width: 300,
+                height: 600,
+                margin: const EdgeInsets.all(5),
                 child: RepaintBoundary(
                   key: globalKey,
-                  child: Column(children: <Widget>[
-                    const Spacer(),
-                    Expanded(
-                      flex: 7, // takes 30% of available width
-                      child: SfBarcodeGenerator(
-                        value: "${txtController.text}.1",
-                        showValue: true,
-                        textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    const SizedBox(height: 50),
-                    Expanded(
-                      flex: 7, // takes 30% of available width
-                      child: SfBarcodeGenerator(
-                        value: "${txtController.text}.2",
-                        showValue: true,
-                        textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    const SizedBox(height: 50),
-                    Expanded(
-                      flex: 7, // takes 30% of available width
-                      child: SfBarcodeGenerator(
-                        value: "${txtController.text}.3",
-                        showValue: true,
-                        textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    const SizedBox(height: 50),
-                    Expanded(
-                      flex: 7, // takes 30% of available width
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 30),
+                          width: 170,
+                          height: 60,
+                          child: SfBarcodeGenerator(
+                            value: "${txtController.text}.5",
+                            showValue: true,
+                            textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 30),
+                      width: 170,
+                      height: 60,
                       child: SfBarcodeGenerator(
                         value: "${txtController.text}.4",
                         showValue: true,
                         textStyle: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
-                    const SizedBox(height: 18),
-                    const Expanded(
-                        flex: 7, // takes 30% of available width
-                        child: Image(image: AssetImage("assets/logo.png"))),
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 30),
+                          width: 170,
+                          height: 60,
+                      child: SfBarcodeGenerator(
+                        value: "${txtController.text}.3",
+                        showValue: true,
+                        textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 30),
+                          width: 170,
+                          height: 60,
+                      child: SfBarcodeGenerator(
+                        value: "${txtController.text}.2",
+                        showValue: true,
+                        textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 30),
+                          width: 170,
+                          height: 60,
+                      child: SfBarcodeGenerator(
+                        value: "${txtController.text}.1",
+                        showValue: true,
+                        textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                        Container(
+                            width: 150,
+                            height: 50,
+                        margin: const EdgeInsets.only(top: 10),
+                        child: const Image(image: AssetImage("assets/logo.png"))),
                   ]),
                 )),
           ],
@@ -110,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void renderAndPrintImage() async {
     final boundary =
         globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
-    final image = await boundary?.toImage();
+    final image = await boundary?.toImage(pixelRatio: 5.0);
     final byteData = await image?.toByteData(format: ImageByteFormat.png);
     final imageBytes = byteData?.buffer.asUint8List();
     if (imageBytes != null) {
