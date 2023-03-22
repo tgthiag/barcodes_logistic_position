@@ -15,18 +15,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final TextEditingController txtController = TextEditingController();
+  final TextEditingController? txtController = TextEditingController();
   var stringHolder = "";
   var intHolder = 0;
   final GlobalKey globalKey = GlobalKey();
 
   void _setTextValue() {
     setState(() {
-      txtController.text = txtController.text.toString().toUpperCase();
-      stringHolder =  txtController.text.toString().toUpperCase()[0];
-      intHolder = int.parse(txtController.text.toString().replaceAll(RegExp('[^0-9]'), '')) + 1;
+      txtController?.text = (txtController?.text.length == 2
+          ? "${txtController?.text.toString().toUpperCase()[0]}0${int.parse(txtController!.text.toString().replaceAll(RegExp('[^0-9]'), ''))}"
+          : txtController?.text.toString().toUpperCase())!;
+      stringHolder = txtController!.text.toString().toUpperCase()[0];
+      intHolder = int.parse(
+              txtController!.text.toString().replaceAll(RegExp('[^0-9]'), '')) +
+          1;
     });
-
   }
 
   @override
@@ -45,177 +48,213 @@ class _MyHomePageState extends State<MyHomePage> {
                 "Thiago Carvalho V1.13",
                 style: TextStyle(color: Colors.grey[300], fontSize: 8.0),
               ),
-            ]
-        ),
+            ]),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            const Text(
-              'Digite a rua e a posição:',
-            ),
-            TextField(
-              controller: txtController,
-              maxLines: 1,
-              textAlign: TextAlign.center,
-              autofocus: true,
-              decoration: const InputDecoration(
-                hintText: "Ex: A1...",
+              child:
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+              Container(
+                width: 180,
+                height: 300,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.lightBlue,
+                      width: 2,
+                      style: BorderStyle.solid
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(20))
+                ),
+          margin: const EdgeInsets.only(right: 90),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+
+              const Text(
+                'Digite a rua e a posição:',
               ),
-              onSubmitted: (value) => _setTextValue(),
-            ),
-            Container(
-                width: 400,
-                height: 600,
-                margin: const EdgeInsets.all(5),
-                child: RepaintBoundary(
-                  key: globalKey,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 30),
-                              width: 170,
-                              height: 60,
-                              child: SfBarcodeGenerator(
-                                value: "${txtController.text}.5",
-                                showValue: true,
-                                textStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 30),
-                              width: 170,
-                              height: 60,
-                              child: SfBarcodeGenerator(
-                                value: "${txtController.text}.4",
-                                showValue: true,
-                                textStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 30),
-                              width: 170,
-                              height: 60,
-                              child: SfBarcodeGenerator(
-                                value: "${txtController.text}.3",
-                                showValue: true,
-                                textStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 30),
-                              width: 170,
-                              height: 60,
-                              child: SfBarcodeGenerator(
-                                value: "${txtController.text}.2",
-                                showValue: true,
-                                textStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 30),
-                              width: 170,
-                              height: 60,
-                              child: SfBarcodeGenerator(
-                                value: "${txtController.text}.1",
-                                showValue: true,
-                                textStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                                width: 150,
-                                height: 50,
-                                margin: const EdgeInsets.only(top: 10),
-                                child: const Image(
-                                    image: AssetImage("assets/logo.png"))),
-                          ]),
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 30),
-                              width: 170,
-                              height: 60,
-                              child: SfBarcodeGenerator(
-                                value: "${stringHolder + intHolder.toString()}.5",
-                                showValue: true,
-                                textStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 30),
-                              width: 170,
-                              height: 60,
-                              child: SfBarcodeGenerator(
-                                value: "${stringHolder + intHolder.toString()}.4",
-                                showValue: true,
-                                textStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 30),
-                              width: 170,
-                              height: 60,
-                              child: SfBarcodeGenerator(
-                                value: "${stringHolder + intHolder.toString()}.3",
-                                showValue: true,
-                                textStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 30),
-                              width: 170,
-                              height: 60,
-                              child: SfBarcodeGenerator(
-                                value: "${stringHolder + intHolder.toString()}.2",
-                                showValue: true,
-                                textStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 30),
-                              width: 170,
-                              height: 60,
-                              child: SfBarcodeGenerator(
-                                value: "${stringHolder + intHolder.toString()}.1",
-                                showValue: true,
-                                textStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                                width: 150,
-                                height: 50,
-                                margin: const EdgeInsets.only(top: 10),
-                                child: const Image(
-                                    image: AssetImage("assets/logo.png"))),
-                          ]),
-                    ],
-                  ),
-                )),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Imprimir',
-        onPressed: () {
-          renderAndPrintImage();
-        },
-        child: const Icon(Icons.print),
-      ),
+              SizedBox(
+                  width: 100.0,
+                  height: 60,
+                  child: TextField(
+                    controller: txtController,
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                    autofocus: true,
+                    decoration: const InputDecoration(
+                      hintText: "Ex: A1...",
+                    ),
+                    onSubmitted: (value) => _setTextValue(),
+                  )),
+              IconButton(
+                  iconSize: 50,
+                  color: Colors.blue,
+                  tooltip: 'Print image',
+                  onPressed: () => renderAndPrintImage(), icon: const Icon(Icons.print))
+            ],),
+          ),
+          Container(
+              width: 375,
+              height: 600,
+              margin: const EdgeInsets.all(60),
+              child: RepaintBoundary(
+                key: globalKey,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 30),
+                        width: 180,
+                        height: 58,
+                        child: SfBarcodeGenerator(
+                          value: "${txtController?.text}.5",
+                          showValue: true,
+                          textStyle:
+                              const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 30),
+                        width: 180,
+                        height: 58,
+                        child: SfBarcodeGenerator(
+                          value: "${txtController?.text}.4",
+                          showValue: true,
+                          textStyle:
+                              const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 30),
+                        width: 180,
+                        height: 58,
+                        child: SfBarcodeGenerator(
+                          value: "${txtController?.text}.3",
+                          showValue: true,
+                          textStyle:
+                              const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 30),
+                        width: 180,
+                        height: 58,
+                        child: SfBarcodeGenerator(
+                          value: "${txtController?.text}.2",
+                          showValue: true,
+                          textStyle:
+                              const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 30),
+                        width: 180,
+                        height: 58,
+                        child: SfBarcodeGenerator(
+                          value: "${txtController?.text}.1",
+                          showValue: true,
+                          textStyle:
+                              const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                          width: 180,
+                          height: 60,
+                          margin: const EdgeInsets.only(top: 10),
+                          child: const Image(
+                              image: AssetImage("assets/logo.png"))),
+                    ]),
+                    Column(children: <Widget>[
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 30),
+                        width: 180,
+                        height: 58,
+                        child: SfBarcodeGenerator(
+                          value: (txtController!.text.length >= 1 &&
+                                  txtController?.text[1] == "0")
+                              ? "${"${stringHolder}0$intHolder"}.5"
+                              : "${stringHolder + intHolder.toString()}.5",
+                          showValue: true,
+                          textStyle:
+                              const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 30),
+                        width: 180,
+                        height: 58,
+                        child: SfBarcodeGenerator(
+                          value: (txtController!.text.length >= 1 &&
+                                  txtController?.text[1] == "0")
+                              ? "${"${stringHolder}0$intHolder"}.4"
+                              : "${stringHolder + intHolder.toString()}.4",
+                          showValue: true,
+                          textStyle:
+                              const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 30),
+                        width: 180,
+                        height: 58,
+                        child: SfBarcodeGenerator(
+                          value: (txtController!.text.length >= 1 &&
+                                  txtController?.text[1] == "0")
+                              ? "${"${stringHolder}0$intHolder"}.3"
+                              : "${stringHolder + intHolder.toString()}.3",
+                          showValue: true,
+                          textStyle:
+                              const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 30),
+                        width: 180,
+                        height: 58,
+                        child: SfBarcodeGenerator(
+                          value: (txtController!.text.length >= 1 &&
+                                  txtController?.text[1] == "0")
+                              ? "${"${stringHolder}0$intHolder"}.2"
+                              : "${stringHolder + intHolder.toString()}.2",
+                          showValue: true,
+                          textStyle:
+                              const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 30),
+                        width: 180,
+                        height: 58,
+                        child: SfBarcodeGenerator(
+                          value: (txtController!.text.length >= 1 &&
+                                  txtController?.text[1] == "0")
+                              ? "${"${stringHolder}0$intHolder"}.1"
+                              : "${stringHolder + intHolder.toString()}.1",
+                          showValue: true,
+                          textStyle:
+                              const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                          width: 180,
+                          height: 60,
+                          margin: const EdgeInsets.only(top: 10),
+                          child: const Image(
+                              image: AssetImage("assets/logo.png"))),
+                    ]),
+                  ],
+                ),
+              )),
+        ],
+      )),
     );
   }
 
