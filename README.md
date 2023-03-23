@@ -1,16 +1,7 @@
 # barcodes_logistica
 
-Flutter App for printing location barcodes in a logistic warehouse
+Flutter App for generate and print location barcodes in a logistic warehouse.  
+Idealized by the Logistics Team, developed by me.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Layout:
+![image](https://user-images.githubusercontent.com/86815680/226826492-bf18d433-cefc-408a-a348-a4b89399ab45.png)
