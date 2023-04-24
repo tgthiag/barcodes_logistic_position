@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:barcodes_logistica/BarcodesPaperA4.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -23,11 +23,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void _setTextValue() {
     setState(() {
       txtController?.text = (txtController?.text.length == 2
-          ? "${txtController?.text.toString().toUpperCase()[0]}0${int.parse(txtController!.text.toString().replaceAll(RegExp('[^0-9]'), ''))}"
+          ? "${txtController?.text.toString().toUpperCase()[0]}0${int.parse(
+          txtController!.text.toString().replaceAll(RegExp('[^0-9]'), ''))}"
           : txtController?.text.toString().toUpperCase())!;
       stringHolder = txtController!.text.toString().toUpperCase()[0];
       intHolder = int.parse(
-              txtController!.text.toString().replaceAll(RegExp('[^0-9]'), '')) +
+          txtController!.text.toString().replaceAll(RegExp('[^0-9]'), '')) +
           1;
     });
   }
@@ -51,216 +52,69 @@ class _MyHomePageState extends State<MyHomePage> {
             ]),
       ),
       body: SingleChildScrollView(
-              child:
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+          child:
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
               Container(
                 width: 180,
                 height: 300,
                 decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.lightBlue,
-                      width: 2,
-                      style: BorderStyle.solid
+                        color: Colors.lightBlue,
+                        width: 2,
+                        style: BorderStyle.solid
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(20))
                 ),
-          margin: const EdgeInsets.only(right: 90),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-
-              const Text(
-                'Digite a rua e a posição:',
-              ),
-              SizedBox(
-                  width: 100.0,
-                  height: 60,
-                  child: TextField(
-                    controller: txtController,
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
-                    autofocus: true,
-                    decoration: const InputDecoration(
-                      hintText: "Ex: A1...",
-                    ),
-                    onSubmitted: (value) => _setTextValue(),
-                  )),
-              IconButton(
-                  iconSize: 50,
-                  color: Colors.blue,
-                  tooltip: 'Print image',
-                  onPressed: () => renderAndPrintImage(), icon: const Icon(Icons.print))
-            ],),
-          ),
-          Container(
-              width: 375,
-              height: 600,
-              margin: const EdgeInsets.all(60),
-              child: RepaintBoundary(
-                key: globalKey,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                margin: const EdgeInsets.only(right: 90),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
 
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 30),
-                        width: 180,
-                        height: 58,
-                        child: SfBarcodeGenerator(
-                          value: "${txtController?.text}.5",
-                          showValue: true,
-                          textStyle:
-                              const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 30),
-                        width: 180,
-                        height: 58,
-                        child: SfBarcodeGenerator(
-                          value: "${txtController?.text}.4",
-                          showValue: true,
-                          textStyle:
-                              const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 30),
-                        width: 180,
-                        height: 58,
-                        child: SfBarcodeGenerator(
-                          value: "${txtController?.text}.3",
-                          showValue: true,
-                          textStyle:
-                              const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 30),
-                        width: 180,
-                        height: 58,
-                        child: SfBarcodeGenerator(
-                          value: "${txtController?.text}.2",
-                          showValue: true,
-                          textStyle:
-                              const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 30),
-                        width: 180,
-                        height: 58,
-                        child: SfBarcodeGenerator(
-                          value: "${txtController?.text}.1",
-                          showValue: true,
-                          textStyle:
-                              const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                          width: 180,
-                          height: 60,
-                          margin: const EdgeInsets.only(top: 10),
-                          child: const Image(
-                              image: AssetImage("assets/logo.png"))),
-                    ]),
-                    Column(children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 30),
-                        width: 180,
-                        height: 58,
-                        child: SfBarcodeGenerator(
-                          value: (txtController!.text.length >= 1 &&
-                                  txtController?.text[1] == "0")
-                              ? "${"${stringHolder}0$intHolder"}.5"
-                              : "${stringHolder + intHolder.toString()}.5",
-                          showValue: true,
-                          textStyle:
-                              const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 30),
-                        width: 180,
-                        height: 58,
-                        child: SfBarcodeGenerator(
-                          value: (txtController!.text.length >= 1 &&
-                                  txtController?.text[1] == "0")
-                              ? "${"${stringHolder}0$intHolder"}.4"
-                              : "${stringHolder + intHolder.toString()}.4",
-                          showValue: true,
-                          textStyle:
-                              const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 30),
-                        width: 180,
-                        height: 58,
-                        child: SfBarcodeGenerator(
-                          value: (txtController!.text.length >= 1 &&
-                                  txtController?.text[1] == "0")
-                              ? "${"${stringHolder}0$intHolder"}.3"
-                              : "${stringHolder + intHolder.toString()}.3",
-                          showValue: true,
-                          textStyle:
-                              const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 30),
-                        width: 180,
-                        height: 58,
-                        child: SfBarcodeGenerator(
-                          value: (txtController!.text.length >= 1 &&
-                                  txtController?.text[1] == "0")
-                              ? "${"${stringHolder}0$intHolder"}.2"
-                              : "${stringHolder + intHolder.toString()}.2",
-                          showValue: true,
-                          textStyle:
-                              const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 30),
-                        width: 180,
-                        height: 58,
-                        child: SfBarcodeGenerator(
-                          value: (txtController!.text.length >= 1 &&
-                                  txtController?.text[1] == "0")
-                              ? "${"${stringHolder}0$intHolder"}.1"
-                              : "${stringHolder + intHolder.toString()}.1",
-                          showValue: true,
-                          textStyle:
-                              const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                          width: 180,
-                          height: 60,
-                          margin: const EdgeInsets.only(top: 10),
-                          child: const Image(
-                              image: AssetImage("assets/logo.png"))),
-                    ]),
-                  ],
-                ),
-              )),
-        ],
-      )),
+                    const Text(
+                      'Digite a rua e a posição:',
+                    ),
+                    SizedBox(
+                        width: 100.0,
+                        height: 60,
+                        child: TextField(
+                          controller: txtController,
+                          maxLines: 1,
+                          textAlign: TextAlign.center,
+                          autofocus: true,
+                          decoration: const InputDecoration(
+                            hintText: "Ex: A1...",
+                          ),
+                          onSubmitted: (value) => _setTextValue(),
+                        )),
+                    IconButton(
+                        iconSize: 50,
+                        color: Colors.blue,
+                        tooltip: 'Print image',
+                        onPressed: () => renderAndPrintImage(),
+                        icon: const Icon(Icons.print))
+                  ],),
+              ),
+              Container(
+                  width: 375,
+                  height: 600,
+                  margin: const EdgeInsets.all(60),
+                  child: RepaintBoundary(
+                    key: globalKey,
+                    child: BarcodesPapera4(txtController: txtController,intHolder: intHolder, stringHolder: stringHolder),
+                  )),
+            ],
+          )),
     );
   }
 
   void renderAndPrintImage() async {
     final boundary =
-        globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+    globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
     final image = await boundary?.toImage(pixelRatio: 5.0);
     final byteData = await image?.toByteData(format: ImageByteFormat.png);
     final imageBytes = byteData?.buffer.asUint8List();
