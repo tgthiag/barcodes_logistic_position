@@ -1,13 +1,10 @@
-import 'dart:async';
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
 class BarcodesPapera4 extends StatelessWidget{
-  TextEditingController? txtController;
+  final TextEditingController? txtController;
   final int intHolder;
-  String? stringHolder;
+   final String? stringHolder;
 
   BarcodesPapera4({super.key, required this.txtController, required this.intHolder, required this.stringHolder});
 
@@ -92,7 +89,7 @@ class BarcodesPapera4 extends StatelessWidget{
               width: 180,
               height: 58,
               child: SfBarcodeGenerator(
-                value: (txtController!.text.length >= 1 &&
+                value: (txtController!.text.isNotEmpty &&
                     txtController?.text[1] == "0" && txtController?.text[2] != "9")
                     ? "${"${stringHolder}0$intHolder"}.5"
                     : "${stringHolder! + intHolder.toString()}.5",
@@ -106,7 +103,7 @@ class BarcodesPapera4 extends StatelessWidget{
               width: 180,
               height: 58,
               child: SfBarcodeGenerator(
-                value: (txtController!.text.length >= 1 &&
+                value: (txtController!.text.isNotEmpty &&
                     txtController?.text[1] == "0" && txtController?.text[2] != "9")
                     ? "${"${stringHolder}0$intHolder"}.4"
                     : "${stringHolder! + intHolder.toString()}.4",
@@ -120,7 +117,7 @@ class BarcodesPapera4 extends StatelessWidget{
               width: 180,
               height: 58,
               child: SfBarcodeGenerator(
-                value: (txtController!.text.length >= 1 &&
+                value: (txtController!.text.isNotEmpty &&
                     txtController?.text[1] == "0" && txtController?.text[2] != "9")
                     ? "${"${stringHolder}0$intHolder"}.3"
                     : "${stringHolder! + intHolder.toString()}.3",
@@ -134,7 +131,7 @@ class BarcodesPapera4 extends StatelessWidget{
               width: 180,
               height: 58,
               child: SfBarcodeGenerator(
-                value: (txtController!.text.length >= 1 &&
+                value: (txtController!.text.isNotEmpty &&
                     txtController?.text[1] == "0" && txtController?.text[2] != "9")
                     ? "${"${stringHolder}0$intHolder"}.2"
                     : "${stringHolder! + intHolder.toString()}.2",
@@ -148,7 +145,7 @@ class BarcodesPapera4 extends StatelessWidget{
               width: 180,
               height: 58,
               child: SfBarcodeGenerator(
-                value: (txtController!.text.length >= 1 &&
+                value: (txtController!.text.isNotEmpty &&
                     txtController?.text[1] == "0" && txtController?.text[2] != "9")
                     ? "${"${stringHolder}0$intHolder"}.1"
                     : "${stringHolder! + intHolder.toString()}.1",
