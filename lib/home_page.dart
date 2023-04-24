@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:barcodes_logistica/BarcodesPaperA4.dart';
+import 'package:barcodes_logistica/barcodes_paper_a4.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pdf/pdf.dart';
