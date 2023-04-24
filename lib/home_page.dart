@@ -19,16 +19,17 @@ class _MyHomePageState extends State<MyHomePage> {
   var stringHolder = "";
   var intHolder = 0;
   final GlobalKey globalKey = GlobalKey();
+  String? _selectedValue = "Macedo";
+  final sgaPlantList = {"Macedo", "Cumbica"};
 
   void _setTextValue() {
     setState(() {
       txtController?.text = (txtController?.text.length == 2
-          ? "${txtController?.text.toString().toUpperCase()[0]}0${int.parse(
-          txtController!.text.toString().replaceAll(RegExp('[^0-9]'), ''))}"
+          ? "${txtController?.text.toString().toUpperCase()[0]}0${int.parse(txtController!.text.toString().replaceAll(RegExp('[^0-9]'), ''))}"
           : txtController?.text.toString().toUpperCase())!;
       stringHolder = txtController!.text.toString().toUpperCase()[0];
       intHolder = int.parse(
-          txtController!.text.toString().replaceAll(RegExp('[^0-9]'), '')) +
+              txtController!.text.toString().replaceAll(RegExp('[^0-9]'), '')) +
           1;
     });
   }
@@ -52,69 +53,87 @@ class _MyHomePageState extends State<MyHomePage> {
             ]),
       ),
       body: SingleChildScrollView(
-          child:
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                width: 180,
-                height: 300,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.lightBlue,
-                        width: 2,
-                        style: BorderStyle.solid
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(20))
+          child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            width: 180,
+            height: 300,
+            decoration: BoxDecoration(
+                border: Border.all(
+                    color: Colors.lightBlue,
+                    width: 2,
+                    style: BorderStyle.solid),
+                borderRadius: const BorderRadius.all(Radius.circular(20))),
+            margin: const EdgeInsets.only(right: 90),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'Selecione a unidade:',
                 ),
-                margin: const EdgeInsets.only(right: 90),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-
-                    const Text(
-                      'Digite a rua e a posição:',
-                    ),
-                    SizedBox(
-                        width: 100.0,
-                        height: 60,
-                        child: TextField(
-                          controller: txtController,
-                          maxLines: 1,
-                          textAlign: TextAlign.center,
-                          autofocus: true,
-                          decoration: const InputDecoration(
-                            hintText: "Ex: A1...",
-                          ),
-                          onSubmitted: (value) => _setTextValue(),
-                        )),
-                    IconButton(
-                        iconSize: 50,
-                        color: Colors.blue,
-                        tooltip: 'Print image',
-                        onPressed: () => renderAndPrintImage(),
-                        icon: const Icon(Icons.print))
-                  ],),
-              ),
-              Container(
-                  width: 375,
-                  height: 600,
-                  margin: const EdgeInsets.all(60),
-                  child: RepaintBoundary(
-                    key: globalKey,
-                    child: BarcodesPapera4(txtController: txtController,intHolder: intHolder, stringHolder: stringHolder),
-                  )),
-            ],
-          )),
+                DropdownButton<String>(
+                  value: _selectedValue,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedValue = newValue;
+                    });
+                  },
+                  items: <String>['Macedo', 'Cumbica']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+                const Text(
+                  'Digite a rua e a posição:',
+                ),
+                SizedBox(
+                    width: 100.0,
+                    height: 60,
+                    child: TextField(
+                      controller: txtController,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      autofocus: true,
+                      decoration: const InputDecoration(
+                        hintText: "Ex: A1...",
+                      ),
+                      onSubmitted: (value) => _setTextValue(),
+                    )),
+                IconButton(
+                    iconSize: 50,
+                    color: Colors.blue,
+                    tooltip: 'Print image',
+                    onPressed: () => renderAndPrintImage(),
+                    icon: const Icon(Icons.print))
+              ],
+            ),
+          ),
+          Container(
+              width: 375,
+              height: 600,
+              margin: const EdgeInsets.all(60),
+              child: RepaintBoundary(
+                key: globalKey,
+                child: BarcodesPapera4(
+                    txtController: txtController,
+                    intHolder: intHolder,
+                    stringHolder: stringHolder),
+              )),
+        ],
+      )),
     );
   }
 
   void renderAndPrintImage() async {
     final boundary =
-    globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+        globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
     final image = await boundary?.toImage(pixelRatio: 5.0);
     final byteData = await image?.toByteData(format: ImageByteFormat.png);
     final imageBytes = byteData?.buffer.asUint8List();
