@@ -1,5 +1,6 @@
 import 'dart:ui';
-import 'package:barcodes_logistica/barcodes_paper_a4.dart';
+import 'package:barcodes_logistica/barcodes_first_plant_a4.dart';
+import 'package:barcodes_logistica/barcodes_second_plant_a4.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pdf/pdf.dart';
@@ -19,8 +20,10 @@ class _MyHomePageState extends State<MyHomePage> {
   var stringHolder = "";
   var intHolder = 0;
   final GlobalKey globalKey = GlobalKey();
-  String? _selectedValue = "Macedo";
+  String _plantSelectedValue = "Macedo";
   final sgaPlantList = {"Macedo", "Cumbica"};
+  String _positionSelectedValue = "U";
+  final sgaPositiontList = {"I", "E", "U"};
 
   void _setTextValue() {
     setState(() {
@@ -76,13 +79,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Selecione a unidade:',
                 ),
                 DropdownButton<String>(
-                  value: _selectedValue,
+                  value: _plantSelectedValue,
                   onChanged: (String? newValue) {
                     setState(() {
-                      _selectedValue = newValue;
+                      _plantSelectedValue = newValue!;
                     });
                   },
-                  items: <String>['Macedo', 'Cumbica']
+                  items: sgaPlantList
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -90,6 +93,26 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   }).toList(),
                 ),
+                if (_plantSelectedValue == "Macedo") ...[
+                const Text(
+                  'Posicionamento:',
+                ),
+                DropdownButton<String>(
+                  value: _positionSelectedValue,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _positionSelectedValue = newValue!;
+                    });
+                  },
+                  items: sgaPositiontList
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+                ],
                 const Text(
                   'Digite a rua e a posição:',
                 ),
@@ -121,10 +144,10 @@ class _MyHomePageState extends State<MyHomePage> {
               margin: const EdgeInsets.all(60),
               child: RepaintBoundary(
                 key: globalKey,
-                child: BarcodesPapera4(
+                child: _plantSelectedValue == "Cumbica" ? BarcodesPapera4(
                     txtController: txtController,
                     intHolder: intHolder,
-                    stringHolder: stringHolder),
+                    stringHolder: stringHolder) : BarcodesSecondPlantA4(txtController: txtController, positioning: _positionSelectedValue,),
               )),
         ],
       )),

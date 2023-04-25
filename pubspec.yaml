@@ -96,3 +96,7 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
     - assets/logo.png
+  fonts:
+    - family: timesbd
+      fonts:
+        - asset: assets/timesbd.ttf
