@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:barcodes_logistica/barcodes_first_plant_a4.dart';
 import 'package:barcodes_logistica/barcodes_second_plant_a4.dart';
+import 'package:barcodes_logistica/dialogAlert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pdf/pdf.dart';
@@ -50,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: const TextStyle(color: Colors.white, fontSize: 34.0),
               ),
               Text(
-                "Thiago Carvalho V1.13",
+                "Thiago Carvalho v2.0",
                 style: TextStyle(color: Colors.grey[300], fontSize: 8.0),
               ),
             ]),
@@ -94,24 +95,24 @@ class _MyHomePageState extends State<MyHomePage> {
                   }).toList(),
                 ),
                 if (_plantSelectedValue == "Macedo") ...[
-                const Text(
-                  'Posicionamento:',
-                ),
-                DropdownButton<String>(
-                  value: _positionSelectedValue,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _positionSelectedValue = newValue!;
-                    });
-                  },
-                  items: sgaPositiontList
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
+                  const Text(
+                    'Posicionamento:',
+                  ),
+                  DropdownButton<String>(
+                    value: _positionSelectedValue,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _positionSelectedValue = newValue!;
+                      });
+                    },
+                    items: sgaPositiontList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
                 ],
                 const Text(
                   'Digite a rua e a posição:',
@@ -127,14 +128,18 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                         hintText: "Ex: A1...",
                       ),
-                      onSubmitted: (value) => _setTextValue(),
+                      onSubmitted: (value) => _plantSelectedValue == "Macedo" &&
+                              txtController?.text.length != 4
+                          ? MyDialog.dialogAlert(
+                              this.context, "O padrão é de 4 dígitos, Ex: B001")
+                          : _setTextValue(),
                     )),
                 IconButton(
                     iconSize: 50,
                     color: Colors.blue,
-                    tooltip: 'Print image',
+                    tooltip: 'Imprimir',
                     onPressed: () => renderAndPrintImage(),
-                    icon: const Icon(Icons.print))
+                    icon: const Icon(Icons.print)),
               ],
             ),
           ),
@@ -144,10 +149,15 @@ class _MyHomePageState extends State<MyHomePage> {
               margin: const EdgeInsets.all(60),
               child: RepaintBoundary(
                 key: globalKey,
-                child: _plantSelectedValue == "Cumbica" ? BarcodesPapera4(
-                    txtController: txtController,
-                    intHolder: intHolder,
-                    stringHolder: stringHolder) : BarcodesSecondPlantA4(txtController: txtController, positioning: _positionSelectedValue,),
+                child: _plantSelectedValue == "Cumbica"
+                    ? BarcodesPapera4(
+                        txtController: txtController,
+                        intHolder: intHolder,
+                        stringHolder: stringHolder)
+                    : BarcodesSecondPlantA4(
+                        txtController: txtController,
+                        positioning: _positionSelectedValue,
+                      ),
               )),
         ],
       )),
